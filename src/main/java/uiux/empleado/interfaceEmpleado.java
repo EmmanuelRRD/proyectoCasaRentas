@@ -24,6 +24,63 @@ public class interfaceEmpleado extends javax.swing.JFrame {
     public interfaceEmpleado() throws SQLException {
         initComponents();
         hacerVentanaMovible();
+
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                if (evt.getClickCount() == 1) { // doble clic
+                    int fila = jTable1.getSelectedRow();
+                    if (fila != -1) {
+                        abrirDialogoEditar(fila);
+                    }
+                }
+            }
+        });
+
+    }
+
+    private void abrirDialogoEditar(int fila) {
+        // Obtener datos de la fila seleccionada
+        String idEmpleado = jTable1.getValueAt(fila, 0).toString();
+        String nombre = jTable1.getValueAt(fila, 1).toString();
+        String primerAp = jTable1.getValueAt(fila, 2).toString();
+        String segundoAp = jTable1.getValueAt(fila, 3).toString();
+        String sexo = jTable1.getValueAt(fila, 4).toString();
+        java.sql.Date fechaNac = (java.sql.Date) jTable1.getValueAt(fila, 5);
+        String puesto = jTable1.getValueAt(fila, 6).toString();
+        String telefono = jTable1.getValueAt(fila, 7).toString();
+        String correo = jTable1.getValueAt(fila, 8).toString();
+
+        // Crear objeto Empleado
+        Empleado emp = new Empleado(idEmpleado, "", nombre, primerAp, segundoAp,
+                sexo, fechaNac, puesto, telefono, correo);
+
+        // Crear el panel de agregarEmpleado y pasarle el objeto
+        agregarEmpleado panel = new agregarEmpleado(emp); // sobrecarga constructor para editar
+
+        // Crear el diálogo
+        JDialog dialog = new JDialog(this, true);
+        dialog.setUndecorated(true);
+        dialog.setContentPane(panel);
+        dialog.pack();
+        dialog.setLocationRelativeTo(this);
+
+        // Listener para actualizar la tabla al cerrar
+        dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                DaoEmpleado dao = new DaoEmpleado();
+                try {
+                    List<Empleado> lista = dao.buscarEmpleados("");
+                    llenarTablaEmpleados(lista);
+
+                } catch (SQLException ex) {
+                    System.getLogger(interfaceEmpleado.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+                }
+            }
+        });
+
+        dialog.setVisible(true);
     }
 
 // Clase generica de 
@@ -313,6 +370,22 @@ public class interfaceEmpleado extends javax.swing.JFrame {
         dialog.setContentPane(panel);
         dialog.pack();
         dialog.setLocationRelativeTo(this);
+
+        // Listener para cuando se cierre el diálogo
+        dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                DaoEmpleado dao = new DaoEmpleado();
+                try {
+                    List<Empleado> lista = dao.buscarEmpleados("");
+                    llenarTablaEmpleados(lista);
+
+                } catch (SQLException ex) {
+                    System.getLogger(interfaceEmpleado.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+                }
+            }
+        });
+
         dialog.setVisible(true);
     }//GEN-LAST:event_btn_addActionPerformed
 
@@ -346,6 +419,7 @@ public class interfaceEmpleado extends javax.swing.JFrame {
             }
         });
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Titulo;

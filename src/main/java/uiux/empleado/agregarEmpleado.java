@@ -312,6 +312,7 @@ public class agregarEmpleado extends javax.swing.JPanel {
     }//GEN-LAST:event_btn_cancelarActionPerformed
 
     private void btn_agregar_empleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregar_empleadoActionPerformed
+        java.awt.Window ventana = javax.swing.SwingUtilities.getWindowAncestor(this);
         String usuario = caja_usuario.getText().trim();
         String nombre = caja_nombre.getText().trim();
         String prAp = caja_pr_ap.getText().trim();
@@ -323,16 +324,20 @@ public class agregarEmpleado extends javax.swing.JPanel {
         String correo = caja_usuario11.getText().trim();
         String contrasena = caja_usuario7.getText().trim();
 
-        if(sexo == "Mujer"){
+        if (sexo == "Mujer") {
             sexo = "F";
-        }else{
-            sexo= "M";
+        } else {
+            sexo = "M";
         }
         // Revisar que no haya campos vacíos
         if (usuario.isEmpty() || nombre.isEmpty() || prAp.isEmpty() || segAp.isEmpty()
                 || fecha.isEmpty() || telefono.isEmpty() || correo.isEmpty() || contrasena.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios");
             return;
+        }
+
+        if (usuario.length() > 6) {
+            JOptionPane.showMessageDialog(this, "Usuario: Maximo 6 caracteres");
         }
 
         // Validar fecha
@@ -343,15 +348,27 @@ public class agregarEmpleado extends javax.swing.JPanel {
             return;
         }
 
+        // Validar teléfono (solo números)
+        if (!telefono.matches("\\d+")) {
+            JOptionPane.showMessageDialog(this, "Ingrese un número de teléfono válido");
+            return;
+        }
+
         // Validar correo
         if (!correo.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$")) {
             JOptionPane.showMessageDialog(this, "Ingrese un correo válido");
             return;
         }
 
-        // Validar teléfono (solo números)
-        if (!telefono.matches("\\d+")) {
-            JOptionPane.showMessageDialog(this, "Ingrese un número de teléfono válido");
+        String regexContrasena = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#$%^&*()\\-+=]).{8,}$";
+
+        if (!contrasena.matches(regexContrasena)) {
+            JOptionPane.showMessageDialog(this,
+                    "La contraseña debe tener al menos:\n"
+                    + "- 1 letra\n"
+                    + "- 1 número\n"
+                    + "- 1 carácter especial (!@#$%^&*()-+=)\n"
+                    + "- Mínimo 8 caracteres");
             return;
         }
 
@@ -375,10 +392,39 @@ public class agregarEmpleado extends javax.swing.JPanel {
         try {
             dao.insertarEmpleado(emp);
             JOptionPane.showMessageDialog(this, "Empleado agregado correctamente");
+            ventana.dispose();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Error al agregar empleado: " + ex.getMessage());
         }
     }//GEN-LAST:event_btn_agregar_empleadoActionPerformed
+
+public agregarEmpleado(Empleado emp) {
+    initComponents();
+
+    // Llenar los campos del formulario con los datos del empleado
+    caja_usuario.setText(emp.getIdEmpleado());
+    caja_nombre.setText(emp.getNombre());
+    caja_pr_ap.setText(emp.getPrimerAp());
+    caja_seg_ap.setText(emp.getSegundoAp());
+    
+    // Seleccionar sexo en el JComboBox
+    if (emp.getSexo().equalsIgnoreCase("F")) {
+        tipo_sexo.setSelectedItem("Mujer"); // según tu lógica de tu JComboBox
+    } else {
+        tipo_sexo.setSelectedItem("Hombre");
+    }
+
+    // Fecha de nacimiento (asumiendo que el campo es tipo JTextField)
+    caja_fecha_nac.setText(emp.getFechaNac().toString()); // yyyy-MM-dd
+
+    // Seleccionar puesto en el JComboBox
+    tipo_puesto.setSelectedItem(emp.getPuesto());
+
+    caja_num_tel.setText(emp.getNumTel());
+    caja_usuario11.setText(emp.getCorreo());
+    caja_usuario7.setText(emp.getContrasena()); // si guardas la contraseña, o deja vacío
+}
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
