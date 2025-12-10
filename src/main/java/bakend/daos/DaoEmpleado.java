@@ -16,14 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
  * @author Emmanuel
  */
-
-
 public class DaoEmpleado {
 
-    public List<Empleado> buscarEmpleados (String busqueda)
+    public List<Empleado> buscarEmpleados(String busqueda)
             throws SQLException {
         List<Empleado> empleados = new ArrayList<>();
         Connection conn = Conexion.getInstance().getConn();
@@ -55,7 +52,7 @@ public class DaoEmpleado {
                     rs.getString("primerAp"),
                     rs.getString("segundoAp"),
                     rs.getString("sexo"),
-                    rs.getString("fechaNac"),
+                    rs.getDate("fechaNac"),
                     rs.getString("puesto"),
                     rs.getString("numTel"),
                     rs.getString("correo")
@@ -68,8 +65,8 @@ public class DaoEmpleado {
 
     public void insertarEmpleado(Empleado emp) throws SQLException {
         String sql = "INSERT INTO CasaRenta_pf.Empleado "
-                   + "(idEmpleado, nombre, primerap, segundoap, sexo, fechanac, puesto, numtel, correo, contrasena) "
-                   + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                + "(idEmpleado,superempleado, nombre, primerap, segundoap, sexo, fechanac, puesto, numtel, correo, password) "
+                + "VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         // Obtener la conexión
         Connection conn = Conexion.getInstance().getConn();
@@ -77,19 +74,20 @@ public class DaoEmpleado {
 
         // Asignar los valores desde el objeto Empleado
         ps.setString(1, emp.getIdEmpleado());
-        ps.setString(2, emp.getNombre());
-        ps.setString(3, emp.getPrimerAp());
-        ps.setString(4, emp.getSegundoAp());
-        ps.setString(5, emp.getSexo());
-        ps.setString(6, emp.getFechaNac());
-        ps.setString(7, emp.getPuesto());
-        ps.setString(8, emp.getNumTel());
-        ps.setString(9, emp.getCorreo());
-        ps.setString(10, emp.getContrasena());
+        ps.setString(2, emp.getIdEmpleado());
+        ps.setString(3, emp.getNombre());
+        ps.setString(4, emp.getPrimerAp());
+        ps.setString(5, emp.getSegundoAp());
+        ps.setString(6, emp.getSexo());
+        ps.setDate(7, emp.getFechaNac());
+        ps.setString(8, emp.getPuesto());
+        ps.setString(9, emp.getNumTel());
+        ps.setString(10, emp.getCorreo());
+        ps.setString(11, emp.getContrasena());
 
         // Ejecutar inserción
         ps.executeUpdate();
         ps.close(); // liberar recursos
-    }    
-    
+    }
+
 }

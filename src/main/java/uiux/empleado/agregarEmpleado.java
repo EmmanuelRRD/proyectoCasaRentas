@@ -61,12 +61,17 @@ public class agregarEmpleado extends javax.swing.JPanel {
         btn_agregar_empleado = new javax.swing.JButton();
         btn_cancelar = new javax.swing.JButton();
 
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
         jLabel1.setFont(new java.awt.Font("Sitka Text", 0, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("AGREGAR EMPLEADO");
         jLabel1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         jLabel1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         tipo_sexo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hombre", "Mujer" }));
 
@@ -138,6 +143,8 @@ public class agregarEmpleado extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
         txtNombre10.setFont(new java.awt.Font("Sitka Text", 0, 12)); // NOI18N
         txtNombre10.setText("Fecha Nacimiento");
 
@@ -159,7 +166,7 @@ public class agregarEmpleado extends javax.swing.JPanel {
         txtNombre14.setFont(new java.awt.Font("Sitka Text", 0, 12)); // NOI18N
         txtNombre14.setText("Contraseña");
 
-        tipo_puesto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Directivo", "Administrador", "Atenció al Cliente" }));
+        tipo_puesto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Agente", "Gerente", "ClienteBase" }));
 
         caja_usuario7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
@@ -212,6 +219,8 @@ public class agregarEmpleado extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+
         btn_agregar_empleado.setBackground(new java.awt.Color(242, 242, 242));
         btn_agregar_empleado.setText("AGREGAR");
         btn_agregar_empleado.setBorder(null);
@@ -258,12 +267,12 @@ public class agregarEmpleado extends javax.swing.JPanel {
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel4Layout.createSequentialGroup()
                     .addGap(43, 43, 43)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
                     .addGap(44, 44, 44)))
         );
         jPanel4Layout.setVerticalGroup(
@@ -287,9 +296,7 @@ public class agregarEmpleado extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -300,7 +307,8 @@ public class agregarEmpleado extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
-        // TODO add your handling code here:
+        java.awt.Window ventana = javax.swing.SwingUtilities.getWindowAncestor(this);
+        ventana.dispose();
     }//GEN-LAST:event_btn_cancelarActionPerformed
 
     private void btn_agregar_empleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregar_empleadoActionPerformed
@@ -315,6 +323,11 @@ public class agregarEmpleado extends javax.swing.JPanel {
         String correo = caja_usuario11.getText().trim();
         String contrasena = caja_usuario7.getText().trim();
 
+        if(sexo == "Mujer"){
+            sexo = "F";
+        }else{
+            sexo= "M";
+        }
         // Revisar que no haya campos vacíos
         if (usuario.isEmpty() || nombre.isEmpty() || prAp.isEmpty() || segAp.isEmpty()
                 || fecha.isEmpty() || telefono.isEmpty() || correo.isEmpty() || contrasena.isEmpty()) {
@@ -345,11 +358,13 @@ public class agregarEmpleado extends javax.swing.JPanel {
         // Si todo está bien, crear el objeto Empleado
         Empleado emp = new Empleado();
         emp.setIdEmpleado(usuario);
+        emp.setSuperEmpleado("EMP001");
         emp.setNombre(nombre);
         emp.setPrimerAp(prAp);
         emp.setSegundoAp(segAp);
         emp.setSexo(sexo);
-        emp.setFechaNac(fecha);
+        java.sql.Date sqlDate = java.sql.Date.valueOf(fecha); // convierte a java.sql.Date
+        emp.setFechaNac(sqlDate); // cambia el tipo de la propiedad fechaNac a java.sql.Date
         emp.setPuesto(puesto);
         emp.setNumTel(telefono);
         emp.setCorreo(correo);

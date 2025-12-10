@@ -12,6 +12,7 @@ uiux\empleado\interfaceEmpleado$1.class
 uiux\Login$7.class
 uiux\propietario\propiedadDetallada$3.class
 uiux\Login.class
+uiux\empleado\interfaceEmpleado$8.class
 uiux\cliente\IngresarFecha$5.class
 bakend\conexion\Conexion.class
 uiux\cliente\Propiedad$1.class
@@ -25,9 +26,11 @@ uiux\cliente\InterfaceCliente$2.class
 uiux\empleado\interfaceEmpleado$4.class
 uiux\propietario\propiedadDetallada$2.class
 uiux\cliente\InterfaceCliente.class
+uiux\empleado\agregarEmpleado.class
 uiux\propietario\interfacePropietario$5.class
 bakend\objetos\Empleado.class
 uiux\cliente\Visitas$2.class
+uiux\empleado\agregarEmpleado$1.class
 uiux\Login$2.class
 uiux\Login$8.class
 uiux\cliente\Visita.class
@@ -55,6 +58,7 @@ uiux\cliente\InterfaceCliente$5.class
 uiux\Login$9.class
 uiux\cliente\Visitas$1.class
 uiux\createCount$11.class
+uiux\empleado\agregarEmpleado$2.class
 uiux\createCount.class
 uiux\empleado\interfaceEmpleado.class
 uiux\empleado\interfaceEmpleado$3.class

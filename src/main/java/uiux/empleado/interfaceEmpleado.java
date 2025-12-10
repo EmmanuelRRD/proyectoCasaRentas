@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 import uiux.Login;
@@ -22,7 +23,7 @@ public class interfaceEmpleado extends javax.swing.JFrame {
 
     public interfaceEmpleado() throws SQLException {
         initComponents();
-        hacerVentanaMovible();        
+        hacerVentanaMovible();
     }
 
 // Clase generica de 
@@ -236,6 +237,11 @@ public class interfaceEmpleado extends javax.swing.JFrame {
         btn_add.setBackground(new java.awt.Color(0, 255, 0));
         btn_add.setText("ADD");
         btn_add.setBorder(null);
+        btn_add.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_addActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -287,17 +293,28 @@ public class interfaceEmpleado extends javax.swing.JFrame {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         Titulo.setText("Empleados");
-        
+
         DaoEmpleado dao = new DaoEmpleado();
         try {
             List<Empleado> lista = dao.buscarEmpleados("");
             llenarTablaEmpleados(lista);
-            
+
         } catch (SQLException ex) {
             System.getLogger(interfaceEmpleado.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
         }
-        
+
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void btn_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_addActionPerformed
+        agregarEmpleado panel = new agregarEmpleado();
+
+        JDialog dialog = new JDialog(this, true); // modal
+        dialog.setUndecorated(true);              // quitar barra de título
+        dialog.setContentPane(panel);
+        dialog.pack();
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_btn_addActionPerformed
 
     /**
      * @param args the command line arguments

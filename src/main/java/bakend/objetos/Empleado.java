@@ -18,7 +18,7 @@ public class Empleado {
     private String primerAp;
     private String segundoAp;
     private String sexo;
-    private String fechaNac;
+    private java.sql.Date fechaNac;
     private String puesto;
     private String numTel;
     private String correo;
@@ -30,7 +30,7 @@ public class Empleado {
 
     // Constructor completo
     public Empleado(String idEmpleado, String superEmpleado, String nombre, String primerAp,
-            String segundoAp, String sexo, String fechaNac, String puesto, String numTel, String correo) {
+            String segundoAp, String sexo, java.sql.Date fechaNac, String puesto, String numTel, String correo) {
         this.idEmpleado = idEmpleado;
         this.superEmpleado = superEmpleado;
         this.nombre = nombre;
@@ -91,11 +91,11 @@ public class Empleado {
         this.sexo = sexo;
     }
 
-    public String getFechaNac() {
+    public java.sql.Date getFechaNac() {
         return fechaNac;
     }
 
-    public void setFechaNac(String fechaNac) {
+    public void setFechaNac(java.sql.Date fechaNac) {
         this.fechaNac = fechaNac;
     }
 
