@@ -1,6 +1,5 @@
 uiux\createCount$12.class
 uiux\cliente\IngresarFecha$1.class
-bakend\login\Conexion.class
 uiux\cliente\InterfaceCliente$6.class
 uiux\empleado\interfaceEmpleado$5.class
 uiux\Login$3.class
@@ -14,6 +13,7 @@ uiux\Login$7.class
 uiux\propietario\propiedadDetallada$3.class
 uiux\Login.class
 uiux\cliente\IngresarFecha$5.class
+bakend\conexion\Conexion.class
 uiux\cliente\Propiedad$1.class
 uiux\usuario\MenuUsuario.class
 uiux\propietario\Propiedad$1.class
@@ -26,10 +26,12 @@ uiux\empleado\interfaceEmpleado$4.class
 uiux\propietario\propiedadDetallada$2.class
 uiux\cliente\InterfaceCliente.class
 uiux\propietario\interfacePropietario$5.class
+bakend\objetos\Empleado.class
 uiux\cliente\Visitas$2.class
 uiux\Login$2.class
 uiux\Login$8.class
 uiux\cliente\Visita.class
+uiux\empleado\interfaceEmpleado$7.class
 uiux\propietario\interfacePropietario$2.class
 uiux\createCount$9.class
 uiux\Login$5.class
@@ -45,6 +47,7 @@ uiux\propietario\interfacePropietario$6.class
 uiux\createCount$5.class
 uiux\Login$1.class
 uiux\empleado\interfaceEmpleado$6.class
+bakend\daos\DaoEmpleado.class
 uiux\propietario\Propiedad.class
 uiux\propietario\propiedadDetallada$1.class
 uiux\cliente\IngresarFecha$2.class
@@ -64,7 +67,6 @@ uiux\propietario\propiedadDetallada$4.class
 uiux\propietario\interfacePropietario$1.class
 fondopanel\FondoPanel.class
 uiux\cliente\Visitas$3.class
-bakend\login\confirmarLogin.class
 uiux\createCount$7.class
 uiux\cliente\InterfaceCliente$4.class
 uiux\cliente\IngresarFecha$4.class

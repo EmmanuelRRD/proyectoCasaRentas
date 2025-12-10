@@ -1,21 +1,31 @@
 package uiux.empleado;
 
+import bakend.conexion.Conexion;
+import bakend.daos.DaoEmpleado;
+import bakend.objetos.Empleado;
 import uiux.propietario.*;
 import java.awt.event.MouseEvent;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.List;
 import javax.swing.JFrame;
+import javax.swing.table.DefaultTableModel;
 import uiux.Login;
 import uiux.usuario.MenuUsuario;
 
 public class interfaceEmpleado extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(interfaceEmpleado.class.getName());
     private int xOffset, yOffset;
 
-    public interfaceEmpleado() {
+    public interfaceEmpleado() throws SQLException {
         initComponents();
-        hacerVentanaMovible();
+        hacerVentanaMovible();        
     }
-    
+
+// Clase generica de 
     private void hacerVentanaMovible() {
         barraSuperior.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
@@ -23,9 +33,10 @@ public class interfaceEmpleado extends javax.swing.JFrame {
                 // Guardamos la diferencia entre la ventana y la posición del cursor en pantalla
                 xOffset = e.getXOnScreen() - getX();
                 yOffset = e.getYOnScreen() - getY();
+
             }
         });
-        
+
         barraSuperior.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
@@ -34,7 +45,7 @@ public class interfaceEmpleado extends javax.swing.JFrame {
             }
         });
     }
-    
+
     public static void mostrarDialogo(JFrame parent) {
         MenuUsuario menu = new MenuUsuario(parent);
 
@@ -44,10 +55,10 @@ public class interfaceEmpleado extends javax.swing.JFrame {
 
         // Posicionar en el borde izquierdo del padre
         menu.setLocation(x, y);
-        
+
         menu.setVisible(true);
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -59,7 +70,7 @@ public class interfaceEmpleado extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
+        Titulo = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jButton6 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
@@ -68,6 +79,7 @@ public class interfaceEmpleado extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();
         jButton5 = new javax.swing.JButton();
+        btn_add = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -146,17 +158,22 @@ public class interfaceEmpleado extends javax.swing.JFrame {
 
         jPanel1.add(barraSuperior, new org.netbeans.lib.awtextra.AbsoluteConstraints(1, 1, 1090, 18));
 
-        jLabel2.setFont(new java.awt.Font("Sitka Text", 0, 48)); // NOI18N
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Nombre de la tabla");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(179, 25, 910, -1));
+        Titulo.setFont(new java.awt.Font("Sitka Text", 0, 48)); // NOI18N
+        Titulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Titulo.setText("Nombre de la tabla");
+        jPanel1.add(Titulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(179, 25, 910, -1));
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
         jButton6.setBackground(new java.awt.Color(242, 242, 242));
         jButton6.setFont(new java.awt.Font("Sitka Text", 0, 24)); // NOI18N
-        jButton6.setText("btnTabla");
+        jButton6.setText("Empleados");
         jButton6.setBorder(null);
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -216,6 +233,10 @@ public class interfaceEmpleado extends javax.swing.JFrame {
         jButton5.setBackground(new java.awt.Color(242, 242, 242));
         jButton5.setBorder(null);
 
+        btn_add.setBackground(new java.awt.Color(0, 255, 0));
+        btn_add.setText("ADD");
+        btn_add.setBorder(null);
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -225,7 +246,9 @@ public class interfaceEmpleado extends javax.swing.JFrame {
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(279, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 230, Short.MAX_VALUE)
+                .addComponent(btn_add, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -233,7 +256,8 @@ public class interfaceEmpleado extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField1))
+                    .addComponent(jTextField1)
+                    .addComponent(btn_add, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 
@@ -261,6 +285,20 @@ public class interfaceEmpleado extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        Titulo.setText("Empleados");
+        
+        DaoEmpleado dao = new DaoEmpleado();
+        try {
+            List<Empleado> lista = dao.buscarEmpleados("");
+            llenarTablaEmpleados(lista);
+            
+        } catch (SQLException ex) {
+            System.getLogger(interfaceEmpleado.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
+        
+    }//GEN-LAST:event_jButton6ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -283,11 +321,19 @@ public class interfaceEmpleado extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new interfaceEmpleado().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> {
+            try {
+                new interfaceEmpleado().setVisible(true);
+            } catch (SQLException ex) {
+                System.getLogger(interfaceEmpleado.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            }
+        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Titulo;
     private javax.swing.JPanel barraSuperior;
+    private javax.swing.JButton btn_add;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -295,7 +341,6 @@ public class interfaceEmpleado extends javax.swing.JFrame {
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -304,4 +349,38 @@ public class interfaceEmpleado extends javax.swing.JFrame {
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
+
+    public void llenarTablaEmpleados(List<Empleado> empleados) {
+        // Crear el modelo de tabla
+        DefaultTableModel modelo = new DefaultTableModel();
+
+        // Definir columnas
+        modelo.addColumn("ID");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Primer Apellido");
+        modelo.addColumn("Segundo Apellido");
+        modelo.addColumn("Sexo");
+        modelo.addColumn("Fecha Nac");
+        modelo.addColumn("Puesto");
+        modelo.addColumn("Teléfono");
+        modelo.addColumn("Correo");
+
+        // Llenar filas con los objetos
+        for (Empleado e : empleados) {
+            modelo.addRow(new Object[]{
+                e.getIdEmpleado(),
+                e.getNombre(),
+                e.getPrimerAp(),
+                e.getSegundoAp(),
+                e.getSexo(),
+                e.getFechaNac(),
+                e.getPuesto(),
+                e.getNumTel(),
+                e.getCorreo()
+            });
+        }
+
+        // Asignar el modelo a la tabla
+        jTable1.setModel(modelo);
+    }
 }

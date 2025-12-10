@@ -4,9 +4,12 @@
  */
 package uiux;
 
+import bakend.conexion.Conexion;
 import java.awt.event.MouseEvent;
 import uiux.cliente.*;
 import fondopanel.FondoPanel;
+import java.sql.Connection;
+import java.sql.SQLException;
 import uiux.empleado.interfaceEmpleado;
 import uiux.propietario.interfacePropietario;
 
@@ -282,24 +285,53 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        String a = (String) tipoUsuario.getSelectedItem();
+        String usuario = jTextField1.getText();
+        String contra = jTextField2.getText();
+        String a = (String) tipoUsuario.getSelectedItem(); //Para ver cual es la tabla a hacer la consulta
 
-        switch (a) {
-            case "Cliente":
-                dispose();
-                new InterfaceCliente().setVisible(true);
-                break;
-            case "Propietario":
-                dispose();
-                new interfacePropietario().setVisible(true);
-                break;
-            case "Empleado":
-                dispose();
-                new interfaceEmpleado().setVisible(true);
-                break;
-            default:
-                throw new AssertionError();
+        Connection conn = Conexion.getInstance().getConn();
+        java.sql.PreparedStatement ps = null;
+        java.sql.ResultSet rs = null;
+        
+        //Para acceder rapido
+        a="Empleado";
+        usuario = "EMP001";
+        contra = "123456";
+        
+        try {
+            ps = conn.prepareStatement("SELECT * FROM CasaRenta_pf." + a + " WHERE id"+a+" = ? AND password = ?");//formulando la consulta
+            ps.setString(1, usuario);
+            ps.setString(2, contra);//Pasando datos como dato y no da lugar a inyecciones raras
+            rs = ps.executeQuery();//Verificando los datos
+
+            if (rs.next()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Bienvenido!!!!");
+
+                switch (a) {
+                    case "Cliente":
+                        dispose();
+                        new InterfaceCliente().setVisible(true);
+                        break;
+                    case "Propietario":
+                        dispose();
+                        new interfacePropietario().setVisible(true);
+                        break;
+                    case "Empleado":
+                        dispose();
+                        new interfaceEmpleado().setVisible(true);
+                        break;
+                    default:
+                        javax.swing.JOptionPane.showMessageDialog(this, "No se pudo validar");
+                }
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos");
+            }
+
+        } catch (SQLException ex) {
+            System.getLogger(Login.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
         }
+
+
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed

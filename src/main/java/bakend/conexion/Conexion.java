@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package bakend.login;
+package bakend.conexion;
 
 import java.sql.Statement;
 import java.sql.Connection;
@@ -54,7 +54,7 @@ public class Conexion {
     try {
         if (conn != null && !conn.isClosed()) {
             conn.close();
-            System.out.println("Conexión cerrada.");
+            //System.out.println("Conexión cerrada.");
         }
     } catch (SQLException e) {
         e.printStackTrace();
