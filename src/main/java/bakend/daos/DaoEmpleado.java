@@ -120,4 +120,21 @@ public class DaoEmpleado {
         ps.executeUpdate();
         ps.close();
     }
+
+    public void eliminarEmpleado(String idEmpleado) throws SQLException {
+        
+        Connection conn = Conexion.getInstance().getConn();
+
+        String sql = "DELETE FROM CasaRenta_pf.Empleado WHERE idEmpleado = ?";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, idEmpleado); // Se asigna el ID del empleado
+            int filasAfectadas = ps.executeUpdate(); // Ejecuta la eliminación
+
+            if (filasAfectadas == 0) {
+                throw new SQLException("No se encontró el empleado con ID: " + idEmpleado);
+            }
+        }
+    }
+
 }

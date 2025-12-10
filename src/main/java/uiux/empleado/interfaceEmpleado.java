@@ -285,7 +285,7 @@ public class interfaceEmpleado extends javax.swing.JFrame {
         jButton5.setBorder(null);
 
         btn_add.setBackground(new java.awt.Color(0, 255, 0));
-        btn_add.setText("ADD");
+        btn_add.setText("Add");
         btn_add.setBorder(null);
         btn_add.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -349,6 +349,7 @@ public class interfaceEmpleado extends javax.swing.JFrame {
 
     private void btn_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_addActionPerformed
         agregarEmpleado panel = new agregarEmpleado();
+        
 
         JDialog dialog = new JDialog(this, true); // modal
         dialog.setUndecorated(true);              // quitar barra de título

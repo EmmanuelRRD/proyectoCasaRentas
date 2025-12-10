@@ -63,6 +63,7 @@ public class agregarEmpleado extends javax.swing.JPanel {
         jPanel3 = new javax.swing.JPanel();
         btn_agregar_empleado = new javax.swing.JButton();
         btn_cancelar = new javax.swing.JButton();
+        btn_eliminar = new javax.swing.JButton();
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -262,6 +263,15 @@ public class agregarEmpleado extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        btn_eliminar.setBackground(new java.awt.Color(255, 153, 153));
+        btn_eliminar.setText("del");
+        btn_eliminar.setBorder(null);
+        btn_eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_eliminarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -271,16 +281,22 @@ public class agregarEmpleado extends javax.swing.JPanel {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btn_eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel4Layout.createSequentialGroup()
-                    .addGap(43, 43, 43)
-                    .addComponent(titulo, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
-                    .addGap(44, 44, 44)))
+                    .addGap(72, 72, 72)
+                    .addComponent(titulo, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(84, Short.MAX_VALUE)))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(32, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(btn_eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -291,7 +307,7 @@ public class agregarEmpleado extends javax.swing.JPanel {
                 .addGroup(jPanel4Layout.createSequentialGroup()
                     .addContainerGap()
                     .addComponent(titulo)
-                    .addContainerGap(33, Short.MAX_VALUE)))
+                    .addContainerGap(340, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -317,6 +333,7 @@ public class agregarEmpleado extends javax.swing.JPanel {
         java.awt.Window ventana = javax.swing.SwingUtilities.getWindowAncestor(this);
         titulo.setText("AGREGAR EMPLEADO");
         caja_usuario.setEditable(true);
+        btn_eliminar.setVisible(false);
 
         String usuario = caja_usuario.getText().trim();
         String nombre = caja_nombre.getText().trim();
@@ -362,16 +379,28 @@ public class agregarEmpleado extends javax.swing.JPanel {
         }
 
         // Validar fecha
+        LocalDate fechaNac;
         try {
-            LocalDate fechaNac = LocalDate.parse(fecha); // formato YYYY-MM-DD
+            fechaNac = LocalDate.parse(fecha); // formato YYYY-MM-DD
         } catch (DateTimeParseException ex) {
-            JOptionPane.showMessageDialog(this, "Ingrese una fecha válida (YYYY-MM-DD)");
+            JOptionPane.showMessageDialog(this, "Ingrese una fecha válida (AAAA-MM-DD)");
             return;
         }
 
-        // Validar teléfono (solo números)
+        // Verificar que no sea superior a hoy
+        if (fechaNac.isAfter(LocalDate.now())) {
+            JOptionPane.showMessageDialog(this, "La fecha de nacimiento no puede ser superior a la fecha actual");
+            return;
+        }
+
+        // Validar teléfono (solo números y longitud 10)
         if (!telefono.matches("\\d+")) {
-            JOptionPane.showMessageDialog(this, "Ingrese un número de teléfono válido");
+            JOptionPane.showMessageDialog(this, "Ingrese un número de teléfono válido (solo dígitos)");
+            return;
+        }
+
+        if (telefono.length() != 10) {
+            JOptionPane.showMessageDialog(this, "El número de teléfono debe tener 10 dígitos");
             return;
         }
 
@@ -427,11 +456,39 @@ public class agregarEmpleado extends javax.swing.JPanel {
 
 
     }//GEN-LAST:event_btn_agregar_empleadoActionPerformed
+    
+    
+    private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
+        int respuesta = JOptionPane.showConfirmDialog(
+                this,
+                "¿Está seguro que desea eliminar este empleado?",
+                "Confirmar eliminación",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE
+        );
+
+        // Si el usuario elige "Sí"
+        if (respuesta == JOptionPane.YES_OPTION) {
+            try {
+                DaoEmpleado dao = new DaoEmpleado();
+                String idEmpleado = caja_usuario.getText().trim(); // o el ID que tengas seleccionado
+                dao.eliminarEmpleado(idEmpleado); // método que borre de la BD
+                JOptionPane.showMessageDialog(this, "Empleado eliminado correctamente");
+
+                // Opcional: cerrar ventana o limpiar campos
+                java.awt.Window ventana = javax.swing.SwingUtilities.getWindowAncestor(this);
+                ventana.dispose();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(this, "Error al eliminar: " + ex.getMessage());
+            }
+        }
+    }//GEN-LAST:event_btn_eliminarActionPerformed
 
     public agregarEmpleado(Empleado emp) {
         initComponents();
         esEdicion = true;
         empleadoOriginal = emp;
+        btn_eliminar.setVisible(true);
 
         titulo.setText("EDITAR");
         // Llenar los campos como ya lo tienes
@@ -455,6 +512,7 @@ public class agregarEmpleado extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_agregar_empleado;
     private javax.swing.JButton btn_cancelar;
+    private javax.swing.JButton btn_eliminar;
     private javax.swing.JTextField caja_fecha_nac;
     private javax.swing.JTextField caja_nombre;
     private javax.swing.JTextField caja_num_tel;
