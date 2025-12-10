@@ -164,6 +164,7 @@ public class Login extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Sitka Text", 0, 14)); // NOI18N
         jLabel3.setText("Contraseña");
 
+        jTextField1.setText("EMP001");
         jTextField1.setToolTipText("-,mnm,n");
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -171,6 +172,7 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        jTextField2.setText("123456");
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField2ActionPerformed(evt);
@@ -186,7 +188,7 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        tipoUsuario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cliente", "Propietario", "Empleado" }));
+        tipoUsuario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Empleado", "Cliente", "Propietario" }));
 
         jButton5.setBackground(new java.awt.Color(242, 242, 242));
         jButton5.setFont(new java.awt.Font("Sitka Text", 0, 14)); // NOI18N
@@ -294,9 +296,9 @@ public class Login extends javax.swing.JFrame {
         java.sql.ResultSet rs = null;
         
         //Para acceder rapido
-        a="Empleado";
-        usuario = "EMP001";
-        contra = "123456";
+        //a="Empleado";
+        //usuario = "EMP001";
+        //contra = "123456";
         
         try {
             ps = conn.prepareStatement("SELECT * FROM CasaRenta_pf." + a + " WHERE id"+a+" = ? AND password = ?");//formulando la consulta

@@ -2,7 +2,9 @@ package uiux.empleado;
 
 import bakend.conexion.Conexion;
 import bakend.daos.DaoEmpleado;
+import bakend.daos.DaoVisitas;
 import bakend.objetos.Empleado;
+import bakend.objetos.Visita;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import uiux.propietario.*;
@@ -16,12 +18,14 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 import uiux.Login;
+
 import uiux.usuario.MenuUsuario;
 
 public class interfaceEmpleado extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(interfaceEmpleado.class.getName());
     private int xOffset, yOffset;
+    String tabla = "Empleados";
 
     public interfaceEmpleado() throws SQLException {
         initComponents();
@@ -41,34 +45,47 @@ public class interfaceEmpleado extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 if (evt.getClickCount() == 1) { // doble clic
                     int fila = jTable1.getSelectedRow();
-                    if (fila != -1) {
-                        int modeloFila = jTable1.convertRowIndexToModel(fila);
 
-                        // Crear objeto Empleado con los datos de la tabla
-                        Empleado emp = new Empleado();
-                        emp.setIdEmpleado(jTable1.getModel().getValueAt(modeloFila, 0).toString());
-                        emp.setNombre(jTable1.getModel().getValueAt(modeloFila, 1).toString());
-                        emp.setPrimerAp(jTable1.getModel().getValueAt(modeloFila, 2).toString());
-                        emp.setSegundoAp(jTable1.getModel().getValueAt(modeloFila, 3).toString());
-                        emp.setSexo(jTable1.getModel().getValueAt(modeloFila, 4).toString());
-                        emp.setFechaNac(java.sql.Date.valueOf(jTable1.getModel().getValueAt(modeloFila, 5).toString()));
-                        emp.setPuesto(jTable1.getModel().getValueAt(modeloFila, 6).toString());
-                        emp.setNumTel(jTable1.getModel().getValueAt(modeloFila, 7).toString());
-                        emp.setCorreo(jTable1.getModel().getValueAt(modeloFila, 8).toString());
-                        emp.setContrasena(jTable1.getModel().getValueAt(modeloFila, 9).toString());
+                    switch (tabla) {
+                        case "Empleados":
+                            if (fila != -1) {
+                                int modeloFila = jTable1.convertRowIndexToModel(fila);
 
-                        // Abrir el diálogo de agregarEmpleado en modo edición
-                        agregarEmpleado panel = new agregarEmpleado(emp);
-                        javax.swing.JDialog dialog = new javax.swing.JDialog(interfaceEmpleado.this, true);
-                        dialog.setUndecorated(true);
-                        dialog.setContentPane(panel);
-                        dialog.pack();
-                        dialog.setLocationRelativeTo(interfaceEmpleado.this);
-                        dialog.setVisible(true);
+                                // Crear objeto Empleado con los datos de la tabla
+                                Empleado emp = new Empleado();
+                                emp.setIdEmpleado(jTable1.getModel().getValueAt(modeloFila, 0).toString());
+                                emp.setNombre(jTable1.getModel().getValueAt(modeloFila, 1).toString());
+                                emp.setPrimerAp(jTable1.getModel().getValueAt(modeloFila, 2).toString());
+                                emp.setSegundoAp(jTable1.getModel().getValueAt(modeloFila, 3).toString());
+                                emp.setSexo(jTable1.getModel().getValueAt(modeloFila, 4).toString());
+                                emp.setFechaNac(java.sql.Date.valueOf(jTable1.getModel().getValueAt(modeloFila, 5).toString()));
+                                emp.setPuesto(jTable1.getModel().getValueAt(modeloFila, 6).toString());
+                                emp.setNumTel(jTable1.getModel().getValueAt(modeloFila, 7).toString());
+                                emp.setCorreo(jTable1.getModel().getValueAt(modeloFila, 8).toString());
+                                emp.setContrasena(jTable1.getModel().getValueAt(modeloFila, 9).toString());
 
-                        // Recargar tabla después de cerrar
-                        recargarTablaEmpleados("");
+                                // Abrir el diálogo de agregarEmpleado en modo edición
+                                agregarEmpleado panel = new agregarEmpleado(emp);
+                                javax.swing.JDialog dialog = new javax.swing.JDialog(interfaceEmpleado.this, true);
+                                dialog.setUndecorated(true);
+                                dialog.setContentPane(panel);
+                                dialog.pack();
+                                dialog.setLocationRelativeTo(interfaceEmpleado.this);
+                                dialog.setVisible(true);
+
+                                recargarTablaEmpleados("");
+                            }//Para los empleados
+                            break;
+
+                        case "Visitas":
+                            if (fila != -1){
+                                
+                            }
+                            break;
+                        default:
+                            throw new AssertionError();
                     }
+
                 }
             }
         });
@@ -134,6 +151,7 @@ public class interfaceEmpleado extends javax.swing.JFrame {
         Titulo = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jButton6 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -236,18 +254,31 @@ public class interfaceEmpleado extends javax.swing.JFrame {
             }
         });
 
+        jButton7.setBackground(new java.awt.Color(242, 242, 242));
+        jButton7.setFont(new java.awt.Font("Sitka Text", 0, 24)); // NOI18N
+        jButton7.setText("Visitas");
+        jButton7.setBorder(null);
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
+            .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
+            .addComponent(jButton7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(490, Short.MAX_VALUE))
         );
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1, 25, -1, 598));
@@ -364,6 +395,7 @@ public class interfaceEmpleado extends javax.swing.JFrame {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         Titulo.setText("Empleados");
+        tabla = "Empleados";
 
         recargarTablaEmpleados("");
     }//GEN-LAST:event_jButton6ActionPerformed
@@ -407,9 +439,20 @@ public class interfaceEmpleado extends javax.swing.JFrame {
         recargarTablaEmpleados("");
     }//GEN-LAST:event_jButton5ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        //llenarTablaVisitas();
+        tabla = "Visitas";
+
+        DaoVisitas dao = new DaoVisitas();
+        try {
+            List<Visita> lista = dao.buscarVisitas("");
+            llenarTablaVisitas(lista);
+
+        } catch (SQLException ex) {
+            System.getLogger(interfaceEmpleado.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
+    }//GEN-LAST:event_jButton7ActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -449,6 +492,7 @@ public class interfaceEmpleado extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
@@ -488,6 +532,32 @@ public class interfaceEmpleado extends javax.swing.JFrame {
                 e.getNumTel(),
                 e.getCorreo(),
                 e.getContrasena()
+            });
+        }
+
+        // Asignar el modelo a la tabla
+        jTable1.setModel(modelo);
+    }
+
+    public void llenarTablaVisitas(List<Visita> visitas) {
+        // Crear el modelo de tabla
+        DefaultTableModel modelo = new DefaultTableModel();
+
+        // Definir columnas
+        modelo.addColumn("Propieda");
+        modelo.addColumn("Cliente");
+        modelo.addColumn("Empleado");
+        modelo.addColumn("Fecha visita");
+        modelo.addColumn("Comentario");
+
+        // Llenar filas con los objetos
+        for (Visita v : visitas) {
+            modelo.addRow(new Object[]{
+                v.getIdPropiedad(),
+                v.getIdCliente(),
+                v.getIdEmpleado(),
+                v.getFechaVisita(),
+                v.getComentario()
             });
         }
 
