@@ -3,6 +3,8 @@ package uiux.empleado;
 import bakend.conexion.Conexion;
 import bakend.daos.DaoEmpleado;
 import bakend.objetos.Empleado;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import uiux.propietario.*;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
@@ -26,6 +28,14 @@ public class interfaceEmpleado extends javax.swing.JFrame {
         hacerVentanaMovible();
         recargarTablaEmpleados("");
 
+        jTextField1.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                String criterio = jTextField1.getText().trim();
+                recargarTablaEmpleados(criterio); // método para filtrar tu JTable
+            }
+        });
+
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -45,7 +55,7 @@ public class interfaceEmpleado extends javax.swing.JFrame {
                         emp.setPuesto(jTable1.getModel().getValueAt(modeloFila, 6).toString());
                         emp.setNumTel(jTable1.getModel().getValueAt(modeloFila, 7).toString());
                         emp.setCorreo(jTable1.getModel().getValueAt(modeloFila, 8).toString());
-                        emp.setContrasena(jTable1.getModel().getValueAt(modeloFila,9).toString());
+                        emp.setContrasena(jTable1.getModel().getValueAt(modeloFila, 9).toString());
 
                         // Abrir el diálogo de agregarEmpleado en modo edición
                         agregarEmpleado panel = new agregarEmpleado(emp);
@@ -280,9 +290,20 @@ public class interfaceEmpleado extends javax.swing.JFrame {
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
 
         jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
 
         jButton5.setBackground(new java.awt.Color(242, 242, 242));
+        jButton5.setText("<◘|");
         jButton5.setBorder(null);
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         btn_add.setBackground(new java.awt.Color(0, 255, 0));
         btn_add.setText("Add");
@@ -343,13 +364,12 @@ public class interfaceEmpleado extends javax.swing.JFrame {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         Titulo.setText("Empleados");
-        
+
         recargarTablaEmpleados("");
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void btn_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_addActionPerformed
         agregarEmpleado panel = new agregarEmpleado();
-        
 
         JDialog dialog = new JDialog(this, true); // modal
         dialog.setUndecorated(true);              // quitar barra de título
@@ -374,6 +394,18 @@ public class interfaceEmpleado extends javax.swing.JFrame {
 
         dialog.setVisible(true);
     }//GEN-LAST:event_btn_addActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        jTextField1.setText("");
+        // Para un JPanel u otro contenedor
+        jTextField1.revalidate(); // recalcula el layout
+        jTextField1.repaint();    // fuerza la actualización gráfica
+        recargarTablaEmpleados("");
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -442,7 +474,6 @@ public class interfaceEmpleado extends javax.swing.JFrame {
         modelo.addColumn("Teléfono");
         modelo.addColumn("Correo");
         modelo.addColumn("Contraseña");
-
 
         // Llenar filas con los objetos
         for (Empleado e : empleados) {

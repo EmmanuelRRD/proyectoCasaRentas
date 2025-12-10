@@ -1,4 +1,5 @@
 uiux\Login$3.class
+uiux\empleado\interfaceEmpleado$11.class
 uiux\propietario\interfacePropietario$4.class
 uiux\empleado\interfaceEmpleado$1.class
 uiux\propietario\propiedadDetallada$3.class
@@ -17,6 +18,7 @@ uiux\createCount$8.class
 uiux\createCount$1.class
 com\mycompany\proyectofinalrentas\ProyectoFinalRentas.class
 uiux\propietario\interfacePropietario$6.class
+uiux\empleado\interfaceEmpleado$12.class
 uiux\empleado\interfaceEmpleado$6.class
 uiux\propietario\Propiedad.class
 uiux\propietario\propiedadDetallada$1.class
@@ -54,6 +56,7 @@ uiux\empleado\agregarEmpleado.class
 uiux\propietario\interfacePropietario$5.class
 bakend\objetos\Empleado.class
 uiux\cliente\Visitas$2.class
+uiux\empleado\interfaceEmpleado$13.class
 uiux\Login$2.class
 uiux\cliente\Visita.class
 uiux\propietario\interfacePropietario$2.class
