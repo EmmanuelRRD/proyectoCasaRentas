@@ -55,7 +55,8 @@ public class DaoEmpleado {
                     rs.getDate("fechaNac"),
                     rs.getString("puesto"),
                     rs.getString("numTel"),
-                    rs.getString("correo")
+                    rs.getString("correo"),
+                    rs.getString("password")
             );
             empleados.add(e);
         }
@@ -63,18 +64,49 @@ public class DaoEmpleado {
         return empleados;
     }
 
-    public void insertarEmpleado(Empleado emp) throws SQLException {
-        String sql = "INSERT INTO CasaRenta_pf.Empleado "
-                + "(idEmpleado,superempleado, nombre, primerap, segundoap, sexo, fechanac, puesto, numtel, correo, password) "
-                + "VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    public void actualizarEmpleado(Empleado emp) throws SQLException {
+        String sql = "UPDATE CasaRenta_pf.Empleado SET "
+                + "superEmpleado = ?, "
+                + "nombre = ?, "
+                + "primerAp = ?, "
+                + "segundoAp = ?, "
+                + "sexo = ?, "
+                + "fechaNac = ?, "
+                + "puesto = ?, "
+                + "numTel = ?, "
+                + "correo = ?, "
+                + "password = ? "
+                + "WHERE idEmpleado = ?";
 
-        // Obtener la conexión
         Connection conn = Conexion.getInstance().getConn();
         PreparedStatement ps = conn.prepareStatement(sql);
 
-        // Asignar los valores desde el objeto Empleado
+        ps.setString(1, emp.getSuperEmpleado());
+        ps.setString(2, emp.getNombre());
+        ps.setString(3, emp.getPrimerAp());
+        ps.setString(4, emp.getSegundoAp());
+        ps.setString(5, emp.getSexo());
+        ps.setDate(6, emp.getFechaNac());
+        ps.setString(7, emp.getPuesto());
+        ps.setString(8, emp.getNumTel());
+        ps.setString(9, emp.getCorreo());
+        ps.setString(10, emp.getContrasena());
+        ps.setString(11, emp.getIdEmpleado());
+
+        ps.executeUpdate();
+        ps.close();
+    }
+
+    public void insertarEmpleado(Empleado emp) throws SQLException {
+        String sql = "INSERT INTO CasaRenta_pf.Empleado "
+                + "(idEmpleado, superEmpleado, nombre, primerAp, segundoAp, sexo, fechaNac, puesto, numTel, correo, password) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        Connection conn = Conexion.getInstance().getConn();
+        PreparedStatement ps = conn.prepareStatement(sql);
+
         ps.setString(1, emp.getIdEmpleado());
-        ps.setString(2, emp.getIdEmpleado());
+        ps.setString(2, emp.getSuperEmpleado());
         ps.setString(3, emp.getNombre());
         ps.setString(4, emp.getPrimerAp());
         ps.setString(5, emp.getSegundoAp());
@@ -85,9 +117,7 @@ public class DaoEmpleado {
         ps.setString(10, emp.getCorreo());
         ps.setString(11, emp.getContrasena());
 
-        // Ejecutar inserción
         ps.executeUpdate();
-        ps.close(); // liberar recursos
+        ps.close();
     }
-
 }

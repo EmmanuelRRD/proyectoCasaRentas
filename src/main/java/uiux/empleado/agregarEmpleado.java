@@ -17,6 +17,9 @@ import javax.swing.JOptionPane;
  */
 public class agregarEmpleado extends javax.swing.JPanel {
 
+    private boolean esEdicion = false;
+    private Empleado empleadoOriginal;
+
     /**
      * Creates new form agregarEmpleado
      */
@@ -34,7 +37,7 @@ public class agregarEmpleado extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel4 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        titulo = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         tipo_sexo = new javax.swing.JComboBox<>();
         txtNombre5 = new javax.swing.JLabel();
@@ -64,12 +67,12 @@ public class agregarEmpleado extends javax.swing.JPanel {
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jLabel1.setFont(new java.awt.Font("Sitka Text", 0, 24)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("AGREGAR EMPLEADO");
-        jLabel1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        jLabel1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        titulo.setFont(new java.awt.Font("Sitka Text", 0, 24)); // NOI18N
+        titulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        titulo.setText("AGREGAR EMPLEADO");
+        titulo.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        titulo.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        titulo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -179,12 +182,11 @@ public class agregarEmpleado extends javax.swing.JPanel {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(txtNombre11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtNombre10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtNombre12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtNombre13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtNombre14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(txtNombre11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtNombre10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtNombre12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtNombre13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtNombre14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(tipo_puesto, 0, 177, Short.MAX_VALUE)
                             .addComponent(caja_num_tel)
                             .addComponent(caja_fecha_nac))
@@ -254,9 +256,9 @@ public class agregarEmpleado extends javax.swing.JPanel {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_agregar_empleado, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btn_agregar_empleado, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_cancelar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -272,7 +274,7 @@ public class agregarEmpleado extends javax.swing.JPanel {
             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel4Layout.createSequentialGroup()
                     .addGap(43, 43, 43)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
+                    .addComponent(titulo, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
                     .addGap(44, 44, 44)))
         );
         jPanel4Layout.setVerticalGroup(
@@ -288,7 +290,7 @@ public class agregarEmpleado extends javax.swing.JPanel {
             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel4Layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(jLabel1)
+                    .addComponent(titulo)
                     .addContainerGap(33, Short.MAX_VALUE)))
         );
 
@@ -313,6 +315,9 @@ public class agregarEmpleado extends javax.swing.JPanel {
 
     private void btn_agregar_empleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregar_empleadoActionPerformed
         java.awt.Window ventana = javax.swing.SwingUtilities.getWindowAncestor(this);
+        titulo.setText("AGREGAR EMPLEADO");
+        caja_usuario.setEditable(true);
+
         String usuario = caja_usuario.getText().trim();
         String nombre = caja_nombre.getText().trim();
         String prAp = caja_pr_ap.getText().trim();
@@ -324,7 +329,7 @@ public class agregarEmpleado extends javax.swing.JPanel {
         String correo = caja_usuario11.getText().trim();
         String contrasena = caja_usuario7.getText().trim();
 
-        if (sexo == "Mujer") {
+        if ("Mujer".equals(sexo)) {
             sexo = "F";
         } else {
             sexo = "M";
@@ -338,6 +343,22 @@ public class agregarEmpleado extends javax.swing.JPanel {
 
         if (usuario.length() > 6) {
             JOptionPane.showMessageDialog(this, "Usuario: Maximo 6 caracteres");
+        }
+
+        // Validar que solo contengan letras
+        if (!nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+            JOptionPane.showMessageDialog(this, "El nombre solo puede contener letras");
+            return;
+        }
+
+        if (!prAp.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+            JOptionPane.showMessageDialog(this, "El primer apellido solo puede contener letras");
+            return;
+        }
+
+        if (!segAp.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+            JOptionPane.showMessageDialog(this, "El segundo apellido solo puede contener letras");
+            return;
         }
 
         // Validar fecha
@@ -390,41 +411,45 @@ public class agregarEmpleado extends javax.swing.JPanel {
         // Llamar al DAO para guardar en BD
         DaoEmpleado dao = new DaoEmpleado();
         try {
-            dao.insertarEmpleado(emp);
-            JOptionPane.showMessageDialog(this, "Empleado agregado correctamente");
+            if (esEdicion) {
+                // Mantener el mismo ID
+                emp.setIdEmpleado(empleadoOriginal.getIdEmpleado());
+                dao.actualizarEmpleado(emp);
+                JOptionPane.showMessageDialog(this, "Empleado actualizado correctamente");
+            } else {
+                dao.insertarEmpleado(emp);  // <-- Aquí se corrige
+                JOptionPane.showMessageDialog(this, "Empleado agregado correctamente");
+            }
             ventana.dispose();
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Error al agregar empleado: " + ex.getMessage());
+            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
         }
+
+
     }//GEN-LAST:event_btn_agregar_empleadoActionPerformed
 
-public agregarEmpleado(Empleado emp) {
-    initComponents();
+    public agregarEmpleado(Empleado emp) {
+        initComponents();
+        esEdicion = true;
+        empleadoOriginal = emp;
 
-    // Llenar los campos del formulario con los datos del empleado
-    caja_usuario.setText(emp.getIdEmpleado());
-    caja_nombre.setText(emp.getNombre());
-    caja_pr_ap.setText(emp.getPrimerAp());
-    caja_seg_ap.setText(emp.getSegundoAp());
-    
-    // Seleccionar sexo en el JComboBox
-    if (emp.getSexo().equalsIgnoreCase("F")) {
-        tipo_sexo.setSelectedItem("Mujer"); // según tu lógica de tu JComboBox
-    } else {
-        tipo_sexo.setSelectedItem("Hombre");
+        titulo.setText("EDITAR");
+        // Llenar los campos como ya lo tienes
+        caja_usuario.setText(emp.getIdEmpleado());
+        caja_nombre.setText(emp.getNombre());
+        caja_pr_ap.setText(emp.getPrimerAp());
+        caja_seg_ap.setText(emp.getSegundoAp());
+        tipo_sexo.setSelectedItem(emp.getSexo().equalsIgnoreCase("F") ? "Mujer" : "Hombre");
+        caja_fecha_nac.setText(emp.getFechaNac().toString());
+        tipo_puesto.setSelectedItem(emp.getPuesto());
+        caja_num_tel.setText(emp.getNumTel());
+        caja_usuario11.setText(emp.getCorreo());
+        caja_usuario7.setText(emp.getContrasena());
+
+        caja_usuario.setEditable(false);
+        // Si es edición, cambiar texto del botón
+        btn_agregar_empleado.setText("GUARDAR CAMBIOS");
     }
-
-    // Fecha de nacimiento (asumiendo que el campo es tipo JTextField)
-    caja_fecha_nac.setText(emp.getFechaNac().toString()); // yyyy-MM-dd
-
-    // Seleccionar puesto en el JComboBox
-    tipo_puesto.setSelectedItem(emp.getPuesto());
-
-    caja_num_tel.setText(emp.getNumTel());
-    caja_usuario11.setText(emp.getCorreo());
-    caja_usuario7.setText(emp.getContrasena()); // si guardas la contraseña, o deja vacío
-}
-
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -438,13 +463,13 @@ public agregarEmpleado(Empleado emp) {
     private javax.swing.JTextField caja_usuario;
     private javax.swing.JTextField caja_usuario11;
     private javax.swing.JTextField caja_usuario7;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JComboBox<String> tipo_puesto;
     private javax.swing.JComboBox<String> tipo_sexo;
+    private javax.swing.JLabel titulo;
     private javax.swing.JLabel txtNombre10;
     private javax.swing.JLabel txtNombre11;
     private javax.swing.JLabel txtNombre12;

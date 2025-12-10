@@ -24,6 +24,7 @@ public class interfaceEmpleado extends javax.swing.JFrame {
     public interfaceEmpleado() throws SQLException {
         initComponents();
         hacerVentanaMovible();
+        recargarTablaEmpleados("");
 
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
@@ -31,7 +32,32 @@ public class interfaceEmpleado extends javax.swing.JFrame {
                 if (evt.getClickCount() == 1) { // doble clic
                     int fila = jTable1.getSelectedRow();
                     if (fila != -1) {
-                        abrirDialogoEditar(fila);
+                        int modeloFila = jTable1.convertRowIndexToModel(fila);
+
+                        // Crear objeto Empleado con los datos de la tabla
+                        Empleado emp = new Empleado();
+                        emp.setIdEmpleado(jTable1.getModel().getValueAt(modeloFila, 0).toString());
+                        emp.setNombre(jTable1.getModel().getValueAt(modeloFila, 1).toString());
+                        emp.setPrimerAp(jTable1.getModel().getValueAt(modeloFila, 2).toString());
+                        emp.setSegundoAp(jTable1.getModel().getValueAt(modeloFila, 3).toString());
+                        emp.setSexo(jTable1.getModel().getValueAt(modeloFila, 4).toString());
+                        emp.setFechaNac(java.sql.Date.valueOf(jTable1.getModel().getValueAt(modeloFila, 5).toString()));
+                        emp.setPuesto(jTable1.getModel().getValueAt(modeloFila, 6).toString());
+                        emp.setNumTel(jTable1.getModel().getValueAt(modeloFila, 7).toString());
+                        emp.setCorreo(jTable1.getModel().getValueAt(modeloFila, 8).toString());
+                        emp.setContrasena(jTable1.getModel().getValueAt(modeloFila,9).toString());
+
+                        // Abrir el diálogo de agregarEmpleado en modo edición
+                        agregarEmpleado panel = new agregarEmpleado(emp);
+                        javax.swing.JDialog dialog = new javax.swing.JDialog(interfaceEmpleado.this, true);
+                        dialog.setUndecorated(true);
+                        dialog.setContentPane(panel);
+                        dialog.pack();
+                        dialog.setLocationRelativeTo(interfaceEmpleado.this);
+                        dialog.setVisible(true);
+
+                        // Recargar tabla después de cerrar
+                        recargarTablaEmpleados("");
                     }
                 }
             }
@@ -39,48 +65,15 @@ public class interfaceEmpleado extends javax.swing.JFrame {
 
     }
 
-    private void abrirDialogoEditar(int fila) {
-        // Obtener datos de la fila seleccionada
-        String idEmpleado = jTable1.getValueAt(fila, 0).toString();
-        String nombre = jTable1.getValueAt(fila, 1).toString();
-        String primerAp = jTable1.getValueAt(fila, 2).toString();
-        String segundoAp = jTable1.getValueAt(fila, 3).toString();
-        String sexo = jTable1.getValueAt(fila, 4).toString();
-        java.sql.Date fechaNac = (java.sql.Date) jTable1.getValueAt(fila, 5);
-        String puesto = jTable1.getValueAt(fila, 6).toString();
-        String telefono = jTable1.getValueAt(fila, 7).toString();
-        String correo = jTable1.getValueAt(fila, 8).toString();
+    public void recargarTablaEmpleados(String filtro) {
+        DaoEmpleado dao = new DaoEmpleado();
+        try {
+            List<Empleado> lista = dao.buscarEmpleados(filtro);
+            llenarTablaEmpleados(lista);
 
-        // Crear objeto Empleado
-        Empleado emp = new Empleado(idEmpleado, "", nombre, primerAp, segundoAp,
-                sexo, fechaNac, puesto, telefono, correo);
-
-        // Crear el panel de agregarEmpleado y pasarle el objeto
-        agregarEmpleado panel = new agregarEmpleado(emp); // sobrecarga constructor para editar
-
-        // Crear el diálogo
-        JDialog dialog = new JDialog(this, true);
-        dialog.setUndecorated(true);
-        dialog.setContentPane(panel);
-        dialog.pack();
-        dialog.setLocationRelativeTo(this);
-
-        // Listener para actualizar la tabla al cerrar
-        dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-            @Override
-            public void windowClosed(java.awt.event.WindowEvent e) {
-                DaoEmpleado dao = new DaoEmpleado();
-                try {
-                    List<Empleado> lista = dao.buscarEmpleados("");
-                    llenarTablaEmpleados(lista);
-
-                } catch (SQLException ex) {
-                    System.getLogger(interfaceEmpleado.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
-                }
-            }
-        });
-
-        dialog.setVisible(true);
+        } catch (SQLException ex) {
+            System.getLogger(interfaceEmpleado.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
     }
 
 // Clase generica de 
@@ -218,7 +211,7 @@ public class interfaceEmpleado extends javax.swing.JFrame {
 
         Titulo.setFont(new java.awt.Font("Sitka Text", 0, 48)); // NOI18N
         Titulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        Titulo.setText("Nombre de la tabla");
+        Titulo.setText("Empleados");
         jPanel1.add(Titulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(179, 25, 910, -1));
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -350,16 +343,8 @@ public class interfaceEmpleado extends javax.swing.JFrame {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         Titulo.setText("Empleados");
-
-        DaoEmpleado dao = new DaoEmpleado();
-        try {
-            List<Empleado> lista = dao.buscarEmpleados("");
-            llenarTablaEmpleados(lista);
-
-        } catch (SQLException ex) {
-            System.getLogger(interfaceEmpleado.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
-        }
-
+        
+        recargarTablaEmpleados("");
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void btn_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_addActionPerformed
@@ -455,6 +440,8 @@ public class interfaceEmpleado extends javax.swing.JFrame {
         modelo.addColumn("Puesto");
         modelo.addColumn("Teléfono");
         modelo.addColumn("Correo");
+        modelo.addColumn("Contraseña");
+
 
         // Llenar filas con los objetos
         for (Empleado e : empleados) {
@@ -467,7 +454,8 @@ public class interfaceEmpleado extends javax.swing.JFrame {
                 e.getFechaNac(),
                 e.getPuesto(),
                 e.getNumTel(),
-                e.getCorreo()
+                e.getCorreo(),
+                e.getContrasena()
             });
         }
 

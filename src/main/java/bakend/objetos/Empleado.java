@@ -30,7 +30,7 @@ public class Empleado {
 
     // Constructor completo
     public Empleado(String idEmpleado, String superEmpleado, String nombre, String primerAp,
-            String segundoAp, String sexo, java.sql.Date fechaNac, String puesto, String numTel, String correo) {
+            String segundoAp, String sexo, java.sql.Date fechaNac, String puesto, String numTel, String correo,String contrasena) {
         this.idEmpleado = idEmpleado;
         this.superEmpleado = superEmpleado;
         this.nombre = nombre;
@@ -41,6 +41,7 @@ public class Empleado {
         this.puesto = puesto;
         this.numTel = numTel;
         this.correo = correo;
+        this.contrasena = contrasena;
     }
 
     public String getIdEmpleado() {
